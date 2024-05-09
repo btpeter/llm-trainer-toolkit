@@ -1,0 +1,24 @@
+deepspeed --include localhost:6 --master_port 29577 pretrain_v1.py \
+    --model_name_or_path /data2/model_file/pretrained-checkpoint/Baichuan2-7B-Base \
+    --train_file_dir /data2/home/yangbt/dataset/pretrain/pt2 \
+    --validation_file_dir /data2/model_file/dataset/ready-for-train/pretrain/json/valid \
+    --output_dir /data2/home/yangbt/projects/llm-pretrain/baichuan2/output/pt2 \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --tokenizer_name_or_path /data2/model_file/pretrained-checkpoint/Baichuan2-7B-Base \
+    --use_fast_tokenizer False \
+    --bf16 \
+    --do_train \
+    --do_eval \
+    --seed 42 \
+    --num_train_epochs 2 \
+    --learning_rate 2e-4 \
+    --warmup_ratio 0.05 \
+    --save_steps 100000 \
+    --eval_steps 10000 \
+    --eval_accumulation_steps 1 \
+    --gradient_accumulation_steps 1 \
+    --preprocessing_num_workers 20 \
+    --block_size 2048 \
+    --overwrite_output_dir \
+    --deepspeed ds_config_zero2.json 

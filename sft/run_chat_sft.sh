@@ -1,0 +1,42 @@
+deepspeed --include localhost:0,1,2,3 --master_port 29580 chat-lora.py \
+    --model_name_or_path /data2/model_file/pretrained-checkpoint/Baichuan2-7B-Chat \
+    --experiment_name baichuan2-chat-zhuiwen-diagnosis-v1 \
+    --run_name base-130k \
+    --train_file_dir /data2/model_file/dataset/wenz_copilot/zhuiwen/dxys_zhuiwen_parse/v1 \
+    --validation_split_percentage 5 \
+    --output_dir /data2/home/yangbt/projects/llm-chat-finetune/baichuan2-chat-zhuiwen-diagnosis-v1 \
+    --do_train \
+    --do_eval \
+    --per_device_train_batch_size 8 \
+    --per_device_eval_batch_size 8 \
+    --use_fast_tokenizer false \
+    --evaluation_strategy  steps \
+    --learning_rate 5e-5 \
+    --gradient_accumulation_steps 8 \
+    --num_train_epochs 2 \
+    --warmup_steps 400 \
+    --lora_r 8 \
+    --lora_alpha 32 \
+    --target_modules W_pack \
+    --logging_strategy steps \
+    --logging_steps 10 \
+    --save_strategy steps \
+    --preprocessing_num_workers 20 \
+    --save_steps 200 \
+    --eval_steps 200 \
+    --max_source_length 2048 \
+    --max_target_length 2048 \
+    --save_total_limit 8 \
+    --seed 42 \
+    --ddp_find_unused_parameters False \
+    --block_size 4096 \
+    --report_to tensorboard \
+    --overwrite_output_dir \
+    --deepspeed ds_config_zero2.json \
+    --ignore_data_skip true \
+    --bf16 \
+    --gradient_checkpointing True \
+    --load_best_model_at_end \
+    --bf16_full_eval \
+    --low_cpu_mem_usage True \
+    --ddp_timeout 18000000
